@@ -4,8 +4,11 @@ import json
 from .models import Exam, Question, Subject
 from django.forms.models import model_to_dict
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import QuestionSerializer
+from .serializers import QuestionSerializer, UserSerializers
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -24,6 +27,26 @@ def Jamb_api(request, *args, **kwargs):
         data = serializer.data
 
     return Response(data)
+
+@api_view(["POST"])
+def login(request, *args, **kwargs):
+	return Response({})
+
+@api_view(["POST"])
+def signup(request, *args, **kwargs):
+	serializ = UserSerializers(data=request.data)
+	if serializ.is_valid():
+		serializ.save()
+		user = User.objects.get(username=request.data['username'])
+		user.set_password(request.data['password'])
+		user.save()
+		token = Token.objects.create(user=user)
+		return Response({"token": token.key, "user":serializ.data})
+	return Response(serializ.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def test_token(request, *args, **kwargs):
+	return Response({})
 
 
 # def api_zone(request, *args, **kwargs):

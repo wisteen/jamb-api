@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 from .models import Question
 
@@ -24,3 +25,13 @@ class QuestionSerializer(serializers.ModelSerializer):
 		return obj.get_subject()
 	def get_my_exam(self, obj):
 		return obj.get_exam()
+
+class UserSerializers(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = [
+			'id',
+			'username',
+			'email',
+			'password',
+		]
