@@ -37,7 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',  # For token-based authentication
+    'djoser',  # For more advanced authentication features
+    'simplejwt',  # For JWT authentication
+    'api',
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # For session-based authentication
+        'rest_framework.authentication.TokenAuthentication',  # For token-based authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # For JWT authentication
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
