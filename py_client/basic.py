@@ -1,7 +1,9 @@
 import requests
 
+url = 'http://localhost:5000/api/'
 
-endpoint = "http://localhost:5000/api/"
-get_request = requests.get(endpoint)
+headers = {'Authorization': 'Token 10bcbad3a4d26cf3ab57dc004c8a72829092979c'}
 
-print(get_request.json())
+response = requests.get(url, headers=headers)
+print(response.status_code)
+print(response.json())
